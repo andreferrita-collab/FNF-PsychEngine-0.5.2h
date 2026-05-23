@@ -6,8 +6,12 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
-import flixel.sound.FlxSound;
 import flash.media.Sound;
+
+// Só importa o sistema de som se ele não estiver desativado
+#if !FLX_NO_SOUND_SYSTEM
+import flixel.sound.FlxSound;
+#end
 
 using StringTools;
 
@@ -197,7 +201,11 @@ class Alphabet extends FlxSpriteGroup
 	var loopNum:Int = 0;
 	var xPos:Float = 0;
 	public var curRow:Int = 0;
+	
+	#if !FLX_NO_SOUND_SYSTEM
 	var dialogueSound:FlxSound = null;
+	#end
+	
 	private static var soundDialog:Sound = null;
 	var consecutiveSpaces:Int = 0;
 	public static function setDialogueSound(name:String = '')
@@ -224,8 +232,10 @@ class Alphabet extends FlxSpriteGroup
 			while(!finishedText) { 
 				timerCheck();
 			}
+			#if !FLX_NO_SOUND_SYSTEM
 			if(dialogueSound != null) dialogueSound.stop();
 			dialogueSound = FlxG.sound.play(soundDialog);
+			#end
 		} else {
 			typeTimer = new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 				typeTimer = new FlxTimer().start(speed, function(tmr:FlxTimer) {
@@ -322,8 +332,10 @@ class Alphabet extends FlxSpriteGroup
 				letter.x += 90;
 
 				if(tmr != null) {
+					#if !FLX_NO_SOUND_SYSTEM
 					if(dialogueSound != null) dialogueSound.stop();
 					dialogueSound = FlxG.sound.play(soundDialog);
+					#end
 				}
 
 				add(letter);
@@ -367,7 +379,6 @@ class Alphabet extends FlxSpriteGroup
 			typeTimer.destroy();
 		}
 		typeTimer = null;
-	}
 }
 
 class AlphaCharacter extends FlxSprite
@@ -513,4 +524,5 @@ class AlphaCharacter extends FlxSprite
 				y -= 16;
 		}
 	}
-}
+		}
+	}
