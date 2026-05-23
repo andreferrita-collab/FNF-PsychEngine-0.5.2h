@@ -56,7 +56,7 @@ jobs:
           haxelib --quiet git hxCodec https://github.com/polybiusproxy/hxCodec.git
           haxelib git flixel-addons https://github.com/ninjamuffin99/flixel-addons.git
           haxelib git linc_luajit https://github.com/AndreiRudenko/linc_luajit.git
-          haxelib git extension-videoview https://github.com/jigsaw-4277821/extension-videoview.git
+          haxelib git extension-videoview https://github.com/kangeluwu/extension-videoview.git
           haxelib list
 
       - name: Create Version Tag
