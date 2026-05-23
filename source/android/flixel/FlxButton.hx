@@ -10,12 +10,15 @@ import flixel.input.FlxInput;
 import flixel.input.FlxPointer;
 import flixel.input.IFlxInput;
 import flixel.math.FlxPoint;
-import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.util.FlxDestroyUtil;
 import flixel.input.touch.FlxTouch;
 
-// Mofifications by saw (m.a. jigsaw)
+#if !FLX_NO_SOUND_SYSTEM
+import flixel.sound.FlxSound;
+#end
+
+// Modifications by saw (m.a. jigsaw)
 class FlxButton extends FlxTypedButton<FlxText>
 {
 	public static inline var NORMAL:Int = 0;
@@ -417,15 +420,19 @@ private class FlxButtonEvent implements IFlxDestroyable
 {
 	public var callback:Void->Void;
 
-	#if FLX_SOUND_SYSTEM
+	#if !FLX_NO_SOUND_SYSTEM
 	public var sound:FlxSound;
 	#end
 
+	#if !FLX_NO_SOUND_SYSTEM
 	public function new(?Callback:Void->Void, ?sound:FlxSound)
+	#else
+	public function new(?Callback:Void->Void)
+	#end
 	{
 		callback = Callback;
 
-		#if FLX_SOUND_SYSTEM
+		#if !FLX_NO_SOUND_SYSTEM
 		this.sound = sound;
 		#end
 	}
@@ -434,7 +441,7 @@ private class FlxButtonEvent implements IFlxDestroyable
 	{
 		callback = null;
 
-		#if FLX_SOUND_SYSTEM
+		#if !FLX_NO_SOUND_SYSTEM
 		sound = FlxDestroyUtil.destroy(sound);
 		#end
 	}
@@ -444,7 +451,7 @@ private class FlxButtonEvent implements IFlxDestroyable
 		if (callback != null)
 			callback();
 
-		#if FLX_SOUND_SYSTEM
+		#if !FLX_NO_SOUND_SYSTEM
 		if (sound != null)
 			sound.play(true);
 		#end
